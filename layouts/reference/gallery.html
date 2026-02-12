@@ -1,0 +1,96 @@
+{{ define "main" }}
+<div class="section-header">
+  <div class="container">
+    <nav class="breadcrumb">
+      <a href="/reference/">Reference</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Image Gallery</span>
+    </nav>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="section-subtitle">{{ . }}</p>{{ end }}
+  </div>
+</div>
+
+<div class="gallery container">
+  <div class="gallery-intro">
+    <div class="archive-banner">
+      <svg class="archive-banner-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>These images were scraped from humane.com before the site went offline. They are the property of Humane, Inc. and are preserved here for archival and research purposes.</span>
+    </div>
+    <div class="gallery-downloads">
+      <a href="/downloads/humane-gallery-images.zip" class="download-btn" download>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download All Images (ZIP, 50 MB)
+      </a>
+    </div>
+  </div>
+
+  {{/* Discover category folders dynamically from _index.md page resources */}}
+  {{ $categories := slice }}
+  {{ range .Resources.ByType "page" }}
+    {{ $categories = $categories | append . }}
+  {{ end }}
+
+  {{/* Sort by weight param */}}
+  {{ range sort $categories ".Params.weight" }}
+    {{/* Extract directory prefix from resource name (e.g. "product/_index.md" → "product") */}}
+    {{ $dir := path.Dir .Name }}
+    {{ $title := .Params.title }}
+    {{ $description := .Params.description }}
+    {{ $aspect := .Params.aspect | default "square" }}
+    {{ $gridClass := cond (eq $aspect "wide") "gallery-grid--wide" "gallery-grid--square" }}
+
+    {{/* Match all resources in this directory, excluding the _index.md itself */}}
+    {{ $pattern := printf "%s/*" $dir }}
+    {{ $images := $.Resources.Match $pattern }}
+
+    {{/* Filter out the _index.md page resource — only keep non-page resources */}}
+    {{ $filtered := slice }}
+    {{ range $images }}
+      {{ if ne .ResourceType "page" }}
+        {{ $filtered = $filtered | append . }}
+      {{ end }}
+    {{ end }}
+
+    {{ with $filtered }}
+    <section class="gallery-section">
+      <h2 class="gallery-section-title">{{ $title }}</h2>
+      {{ with $description }}<p class="gallery-section-desc">{{ . }}</p>{{ end }}
+      <div class="gallery-grid {{ $gridClass }}">
+        {{ range . }}
+          {{/* Strip directory prefix and file extension for caption */}}
+          {{ $caption := .Name | replaceRE (printf `^%s/` $dir) "" | replaceRE `\.\w+$` "" }}
+
+          {{ if eq .MediaType.SubType "svg" }}
+            {{/* SVGs: serve directly, no resize */}}
+            <a href="{{ .Permalink }}" target="_blank" rel="noopener" class="gallery-card">
+              <div class="gallery-card-img">
+                <img src="{{ .RelPermalink }}" alt="{{ $caption }}" loading="lazy">
+              </div>
+              <span class="gallery-caption">{{ $caption }}</span>
+            </a>
+          {{ else }}
+            {{/* Raster images: generate thumbnail */}}
+            {{ $thumb := .Resize "400x" }}
+            <a href="{{ .Permalink }}" target="_blank" rel="noopener" class="gallery-card">
+              <div class="gallery-card-img">
+                <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="{{ $caption }}" loading="lazy">
+              </div>
+              <span class="gallery-caption">{{ $caption }}</span>
+            </a>
+          {{ end }}
+        {{ end }}
+      </div>
+    </section>
+    {{ end }}
+  {{ end }}
+</div>
+{{ end }}
