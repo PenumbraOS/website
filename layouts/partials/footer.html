@@ -1,11 +1,16 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-info">
-      <p class="footer-note">A PenumbraOS project. Not affiliated with Humane, Inc.</p>
+      {{ with .Site.Params.footer.note }}
+      <p class="footer-note">{{ . }}</p>
+      {{ end }}
     </div>
+    {{ with .Site.Params.footer.links }}
     <div class="footer-links">
-      <a href="https://github.com/penumbraOS/" class="footer-link" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://writings.agg.im/" class="footer-link" target="_blank" rel="noopener">Blog</a>
+      {{ range . }}
+      <a href="{{ .url }}" class="footer-link" target="_blank" rel="noopener">{{ .name }}</a>
+      {{ end }}
     </div>
+    {{ end }}
   </div>
 </footer>
