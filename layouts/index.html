@@ -11,29 +11,9 @@
   </div>
 </section>
 
-<section class="home-sections">
+<section class="home-content">
   <div class="container">
-    <div class="home-grid">
-      {{ range sort .Site.Sections "Weight" }}
-      <a href="{{ .RelPermalink }}" class="home-card">
-        {{ with .Params.icon }}
-        <div class="home-card-icon">
-          {{ partial (printf "icons/%s.html" .) nil }}
-        </div>
-        {{ end }}
-        <h2 class="home-card-title">{{ .Title }}</h2>
-        {{ with .Params.description }}
-        <p class="home-card-desc">{{ . }}</p>
-        {{ end }}
-      </a>
-      {{ end }}
-    </div>
-
-    {{ with .Content }}
-    <div class="home-context">
-      {{ . }}
-    </div>
-    {{ end }}
+    {{ .Content }}
   </div>
 </section>
 {{ end }}

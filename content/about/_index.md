@@ -1,8 +1,7 @@
 +++
 title = "About"
 description = "About the PenumbraOS project, its history, and the people behind it."
-weight = 50
-icon = "info"
+hide_from_home = true
 +++
 
 ## What is PenumbraOS?
