@@ -1,5 +1,5 @@
 +++
-title = "Archive"
+title = "Humane Archive"
 description = "Preserved official content from Humane, Inc."
 weight = 40
 icon = "archive"

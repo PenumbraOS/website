@@ -42,11 +42,6 @@ title = 'PenumbraOS'
     weight = 30
   [[menu.main]]
     identifier = 'archive'
-    name = 'Archive'
+    name = 'Humane Archive'
     url = '/archive/'
     weight = 40
-  [[menu.main]]
-    identifier = 'about'
-    name = 'About'
-    url = '/about/'
-    weight = 50
