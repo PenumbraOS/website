@@ -206,6 +206,20 @@ img {
   color: var(--color-text-heading);
 }
 
+.content-cta {
+  margin-top: var(--space-xl);
+  text-align: center;
+}
+
+.article-body .hero-cta {
+  color: #000;
+  text-decoration: none;
+}
+
+.article-body .hero-cta:hover {
+  color: #000;
+}
+
 /* ---- Home Content ---- */
 .home-content {
   padding: var(--space-2xl) 0 var(--space-3xl);

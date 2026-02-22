@@ -1,88 +1,40 @@
 +++
 title = "Getting Started"
-description = "Install PenumbraOS on your Ai Pin"
+description = "Set up PenumbraOS"
 weight = 10
 icon = "rocket"
 +++
 
 {{< callout type="warning" >}}
-PenumbraOS is experimental software for a very locked down device. While the installation process is entirely reversible, running this software may cause damages we have not yet discovered. Do not attempt this unless you're comfortable troubleshooting your Pin.
+PenumbraOS is and always will be experimental software. Expect problems and the need to troubleshoot your Pin.
 {{< /callout >}}
 
-## Prerequisites
+## Why PenumbraOS
 
-To install PenumbraOS, you will need:
+If you want to do anything with the Humane Ai Pin, you don't have any other option. Humane had a strange idea of what "privacy" meant; privacy meant that "no one else can steal your data". That meant that the Ai Pin was locked down tightly, while still sending basically all of your Pin's information to Humane's servers (thus by definition not keeping it private). Even once you've gained access to the Pin using the leaked ADB certificate, apps you install cannot access the network, touchpad, hand gestures, or basically anything else.
 
-- **Humane Ai Pin**
-- **Interposer** - A dock that connects to the Pin's debug interface (four metal pads underneath a sticker on the bottom of the device), which you can connect to a computer using USB. You can [buy one from GoinGhost](https://www.etsy.com/listing/1904242117/ai-pin-usb-dock-slim-final-ver-woptions) or [build your own](https://github.com/PenumbraOS/interposer).
-- **Computer** - macOS, Windows, or Linux. You'll run the installer from a terminal, but the setup is very simple and experience with terminals is not required.
-- **LLM API key** - PenumbraOS replaces Humane's cloud services with an LLM you provide. You'll need connection details to an API service; an API URL, API key, and model name. For ease of integrated search and maps, we recommend [Gemini](https://ai.google.dev/gemini-api/docs) (can be used free for some very small), but [OpenAI](https://platform.openai.com/) is commonly used.
-- **ADB certificate (Optional)** - PenumbraOS provides a mechanism to access Pins without sharing the ADB certificate through a remote signing server, but the actual ADB certificate is highly recommended. Having it gives you standard ADB access to the device directly using normal tools, which is a much better development experience than the alternative.
+After a long and drawn out investigation, [@agg23](https://github.com/agg23) arrived at a convoluted solution to deliver that missing functionality in a way that end users and developers can use and understand without dealing with complicated exploits. That solution is PenumbraOS.
 
-## Installation
+## What can PenumbraOS do?
 
-The PenumbraOS installer automatically downloads the latest version of all primary PenumbraOS components, then installs them to your Pin. You can run it again at any point to install the latest updates. Every installation completely uninstalls all components (leaving only your settings) and installs PenumbraOS again fresh.
+PenumbraOS runs automatically on Ai Pin startup, setting up all of the resources necessary to bypass Humane's tight restrictions. It sets up mechanisms for making network calls and talking to hardware features.
 
-### Prepare the Pin
+When using our official launcher/assistant, [MABL](https://github.com/PenumbraOS/mabl), the following functionality is implemented:
 
-Before the Pin can be seated in an interposer, you need to remove the moon sticker on the bottom of the device to expose the debug connector pads. See [Pin Preparation](/getting-started/pin-preparation/) for detailed instructions.
+- An assistant that functions local-first. All requests that could be served locally are served locally when possible
+  - Provide LLM information for queries to external services. This is required for everything but offline functionality, but you can self-host your LLM (or even run it on device if you're very adventurous)
+  - Offline processing of simple queries, like requesting battery level, changing volume, and similar
+  - Queries support internet search through multiple providers (Gemini, Google Search API keys, SearX)
+- Speaks in the official Humane voice, run entirely on device
+- Touchpad gestures similar to the original software
+  - Hold a single finger to talk to the assistant
+  - Hold two fingers to take a picture and send that picture and your voice query to the assistant
+- Set timers and alarms
+- Raise hand to "laser in" and view the current time
+- Hand gestures to access menus, similar to with the original software
 
-Once the sticker is removed, place the Pin in your interposer and connect the interposer to your computer. Windows will likely make a sound and possibly install a driver. macOS will show a USB device permission prompt.
+The only information MABL ever sends out to someone is the information you specifically requested. You can customize the LLM system prompt entirely and you control how conversations are sent to be processed by a LLM provider.
 
-### Download the installer
-
-Grab the latest prebuilt binary for your platform from the [installer releases page](https://github.com/PenumbraOS/installer/releases). Choose the latest entry, then download the installer provided for your OS in the Assets section.
-
-Note: On macOS, you will have to remove quarantine from the downloaded installer with
-
-```bash
-xattr -d com.apple.quarantine penumbra-installer-macos
-```
-
-### Run the installer
-
-1. Open a terminal (CMD on Windows)
-2. Drag your downloaded installer into the terminal window. You'll see something like
-
-```bash
-> /path/to/your/installer
-```
-
-3. Add an additional space after the installer and add the following:
-
-```bash
-install --llm-api-url <URL> --llm-api-key <API_KEY> --llm-api-model-name <MODEL_NAME>
-```
-
-Now the contents of your terminal should be something like:
-
-```bash
-> /path/to/your/installer install --llm-api-url <URL> --llm-api-key <API_KEY> --llm-api-model-name <MODEL_NAME>
-```
-
-For OpenAI, that looks something like:
-
-```bash
-installer install --llm-api-url https://api.openai.com/v1 --llm-api-key sk-... --llm-api-model-name gpt-4o
-```
-
-5. If you do not have the ADB certificate, you must use the remote signing server. Add `--remote-auth-url https://signing.openpin.org/signing` to the end of your command. If you do have the ADB certificate, you do not need to do anything special.
-6. Press enter in your terminal. If nothing goes wrong, you should see/hear your Pin reboot into PenumbraOS in a few minutes.
-
-## First Boot
-
-The modified environment that causes PenumbraOS to function (the "jailbreak") is _not_ permanent; PenumbraOS runs its exploit chain on every boot. After the install completes and the Pin reboots:
-
-1. MABL (or your configured launcher) will appear on the laser ink display immediately, but it is not yet functional.
-2. A chime will sound when the exploit process is complete. A series of two ascending tones means the jailbreak has fully loaded and MABL is ready. A series of descending tones means something has gone wrong and you should consult [Troubleshooting](#troubleshooting).
-
-This boot process happens every time the device powers on. It will take several minutes each time. We recommend letting your Pin sit for ~5 minutes or until you hear the chime before interacting with it after a reboot.
-
-## Troubleshooting
-
-If something goes wrong during installation or boot:
-
-- Capture logs with `installer dump-logs`, or stream them in real time with `installer dump-logs --stream`.
-- Uninstall with `installer uninstall` if you need to start fresh.
-- A "death chime" (two descending tones) indicates the vulnerability has failed. Your Pin is fine but needs to be rebooted. Run the installer again, use the charge pad with the reset pin, or run `adb restart` (if you have the ADB certificate).
-- Get help on [Discord](https://discord.gg/CDZwp5F5WS) or [GitHub Issues](https://github.com/PenumbraOS/installer/issues).
+<div class="content-cta">
+  <a href="/getting-started/installation/" class="hero-cta">Install PenumbraOS</a>
+</div>

@@ -19,7 +19,7 @@ title = 'PenumbraOS'
   note = 'PenubmraOS is not affiliated with Humane Inc. or HP Inc. The Ai Pin trademark and archived content remains property of HP.'
   [[params.footer.links]]
     name = 'GitHub'
-    url = 'https://github.com/penumbraOS/'
+    url = 'https://github.com/PenumbraOS/'
   [[params.footer.links]]
     name = 'Blog'
     url = 'https://writings.agg.im/'
