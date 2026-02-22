@@ -12,7 +12,7 @@
 </div>
 <div class="docs-layout container">
   {{ partial "sidebar-nav.html" . }}
-  <article class="docs-main" data-pagefind-body>
+  <article class="docs-main">
     <div class="article-body">
       {{ .Content }}
     </div>
@@ -21,7 +21,7 @@
 
 {{ else }}
 {{/* Standalone page (no section siblings): full-width */}}
-<article class="article-page" data-pagefind-body>
+<article class="article-page">
   <div class="section-header">
     <div class="container">
       {{ partial "breadcrumb.html" . }}

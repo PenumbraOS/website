@@ -183,7 +183,6 @@ img {
   display: flex;
   gap: var(--space-md);
   justify-content: center;
-  margin-bottom: var(--space-xl);
 }
 
 .hero-cta {
@@ -980,13 +979,11 @@ img {
 }
 
 /* Center the search widget */
-.hero-search,
 .section-header .search-wrapper {
   display: flex;
   justify-content: center;
 }
 
-.hero-search .pagefind-ui,
 .section-header .search-wrapper .pagefind-ui {
   width: 100%;
   max-width: 500px;
