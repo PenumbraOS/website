@@ -18,10 +18,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Hugo
         uses: actions/checkout@v4
         with:
           submodules: recursive
+
+      - name: Checkout center app
+        uses: actions/checkout@v4
+        with:
+          repository: PenumbraOS/center
+          path: center-app
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -34,11 +40,27 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install center app dependencies
+        run: npm ci
+        working-directory: ./center-app
+
+      - name: Build center and installer static artifacts
+        run: npm run build:hugo-static
+        working-directory: ./center-app
+
+      - name: Stage generated app artifacts into Hugo static
+        run: |
+          rm -rf static/install static/center static/installer
+          mkdir -p static/install static/center static/installer
+          cp -R center-app/dist-hugo/install/. static/install/
+          cp -R center-app/dist-hugo/center/. static/center/
+          cp -R center-app/dist-hugo/installer/. static/installer/
+
       - name: Build site
         run: hugo --minify
 
-      - name: Build search index
-        run: npx pagefind --site public
+      - name: Build search index for knowledgebase archive
+        run: npx pagefind --site public --glob "archive/knowledgebase/**/*.html"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

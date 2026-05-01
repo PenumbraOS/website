@@ -2,4 +2,4 @@
 set -euo pipefail
 
 hugo
-npx pagefind --site public
+npx pagefind --site public --glob "archive/knowledgebase/**/*.html"
