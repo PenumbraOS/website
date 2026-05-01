@@ -31,10 +31,6 @@ title = 'PenumbraOS'
     url = '/getting-started/'
     weight = 10
   [[menu.main]]
-    identifier = 'guide'
-    name = 'Guide'
-    url = '/guide/'
-    weight = 20
   [[menu.main]]
     identifier = 'device'
     name = 'Device'
