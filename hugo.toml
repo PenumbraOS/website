@@ -29,19 +29,23 @@ title = 'PenumbraOS'
     identifier = 'center'
     name = 'Center'
     url = '/center/'
+    pageRef = '/center'
     weight = 10
   [[menu.main]]
     identifier = 'getting-started'
     name = 'Getting Started'
     url = '/getting-started/'
+    pageRef = '/getting-started'
     weight = 20
   [[menu.main]]
     identifier = 'about'
     name = 'About'
     url = '/about/'
+    pageRef = '/about'
     weight = 30
   [[menu.main]]
     identifier = 'archive'
     name = 'Humane Archive'
     url = '/archive/'
+    pageRef = '/archive'
     weight = 40

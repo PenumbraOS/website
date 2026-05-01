@@ -143,9 +143,12 @@ img {
   transition: color var(--transition);
 }
 
-.nav-link:hover,
-.nav-link.active {
+.nav-link:hover {
   color: var(--color-text-heading);
+}
+
+.nav-link.active {
+  color: var(--color-beam);
 }
 
 .nav-link--pill {
