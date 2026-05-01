@@ -26,15 +26,19 @@ title = 'PenumbraOS'
 
 [menu]
   [[menu.main]]
+    identifier = 'center'
+    name = 'Center'
+    url = '/center/'
+    weight = 10
+  [[menu.main]]
     identifier = 'getting-started'
     name = 'Getting Started'
     url = '/getting-started/'
-    weight = 10
+    weight = 20
   [[menu.main]]
-  [[menu.main]]
-    identifier = 'device'
-    name = 'Device'
-    url = '/device/'
+    identifier = 'about'
+    name = 'About'
+    url = '/about/'
     weight = 30
   [[menu.main]]
     identifier = 'archive'
