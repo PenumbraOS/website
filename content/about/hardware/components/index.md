@@ -4,7 +4,9 @@ description = "Complete IC component reference for the Ai Pin."
 weight = 30
 +++
 
-Every identified IC in the Humane Ai Pin, organized by board and side. Identifications sourced from [iFixit's Chip ID guide](https://www.ifixit.com/News/97sp1/humane-ai-pin-chip-id). For internal photos showing component placement, see [Teardown](../teardown/).
+## Board Information
+
+Every identified IC in the Humane Ai Pin, organized by board and side. Identifications sourced from [iFixit's Chip ID guide](https://www.ifixit.com/Guide/Humane+AI+Pin+Chip+ID/172518). For internal photos showing component placement, see [Teardown](../teardown/).
 
 ## Main Board — Side 1
 

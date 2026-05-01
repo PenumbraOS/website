@@ -4,6 +4,8 @@ description = "FCC equipment authorization filings for the Ai Pin and Battery Bo
 weight = 10
 +++
 
+## Overview
+
 Humane filed for FCC equipment authorization for two devices: the Ai Pin (wearable communication device) and the Battery Booster (wireless charger). Both filings were submitted on June 27, 2023 and granted on November 9, 2023, ahead of the product's April 2024 launch. The filings were tested by SPORTON International Inc. and certified by UL Verification Services Inc.
 
 Humane also holds an IBFS international telecommunications filing (ITC-214-INTR2023-02468).

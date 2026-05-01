@@ -4,6 +4,8 @@ description = "Physical teardown documentation of the Ai Pin and Battery Booster
 weight = 20
 +++
 
+## iFixit Discoveries
+
 Internal construction of the Humane Ai Pin and Battery Booster, based on [iFixit's teardown](https://www.ifixit.com/Teardown/Humane+Ai+Pin+Teardown/175765) and FCC internal photo filings ([2BAFM-HU123](https://fccid.io/2BAFM-HU123), [2BAFM-HU223](https://fccid.io/2BAFM-HU223)). For IC-level identification of every chip on the boards, see [Components](../components/).
 
 ## Construction
