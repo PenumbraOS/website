@@ -1,5 +1,5 @@
 +++
-title = "Device"
+title = "About"
 description = "Hardware and software documentation for the Humane Ai Pin."
 weight = 30
 icon = "cpu"

@@ -13,6 +13,6 @@ PenumbraOS is an open source jailbreak and reverse engineering platform to resto
 
 {{< cards >}}
 {{< card title="Getting Started" url="/getting-started/" icon="rocket" description="Install PenumbraOS on your Ai Pin and get up and running" >}}
-{{< card title="Device" url="/device/" icon="cpu" description="Hardware and software documentation for the Humane Ai Pin" >}}
+{{< card title="About" url="/about/" icon="cpu" description="Hardware and software documentation for the Humane Ai Pin" >}}
 {{< card title="Archive" url="/archive/" icon="archive" description="Preserved official content from Humane websites and marketing" >}}
 {{< /cards >}}
