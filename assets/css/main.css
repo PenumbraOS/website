@@ -24,7 +24,7 @@
   --color-text-heading: rgba(255, 255, 255, 0.95);    /* Headings */
 
   /* Typography */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -1304,19 +1304,19 @@ img {
 }
 
 .gallery-card-img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-sm);
+  position: relative;
   background: var(--color-eclipse);
   overflow: hidden;
 }
 
 .gallery-card-img img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 4px;
+  padding: var(--space-sm);
+  box-sizing: border-box;
 }
 
 /* Square sections */

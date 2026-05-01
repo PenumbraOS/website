@@ -1,0 +1,42 @@
+{{/*
+  gallery-grid partial — renders a grid of image thumbnail cards.
+
+  Shared between:
+  - layouts/archive/gallery.html (full-page gallery layout)
+  - layouts/shortcodes/gallery.html (inline gallery shortcode)
+
+  Expected context (dict):
+    .images  — slice of Hugo image resources
+    .dir     — directory prefix to strip from filenames for captions
+    .aspect  — "square" or "wide" (default "square")
+*/}}
+{{ $images := .images }}
+{{ $dir := .dir }}
+{{ $aspect := .aspect | default "square" }}
+{{ $gridClass := cond (eq $aspect "wide") "gallery-grid--wide" "gallery-grid--square" }}
+
+{{ with $images }}
+<div class="gallery-grid {{ $gridClass }}">
+  {{ range . }}
+    {{/* Strip directory prefix and file extension for caption */}}
+    {{ $caption := .Name | replaceRE (printf `^%s/` $dir) "" | replaceRE `\.\w+$` "" }}
+
+    {{ if eq .MediaType.SubType "svg" }}
+      <a href="{{ .Permalink }}" target="_blank" rel="noopener" class="gallery-card">
+        <div class="gallery-card-img">
+          <img src="{{ .RelPermalink }}" alt="{{ $caption }}" loading="lazy">
+        </div>
+        <span class="gallery-caption">{{ $caption }}</span>
+      </a>
+    {{ else }}
+      {{ $thumb := .Resize "400x" }}
+      <a href="{{ .Permalink }}" target="_blank" rel="noopener" class="gallery-card">
+        <div class="gallery-card-img">
+          <img src="{{ $thumb.RelPermalink }}" alt="{{ $caption }}" loading="lazy">
+        </div>
+        <span class="gallery-caption">{{ $caption }}</span>
+      </a>
+    {{ end }}
+  {{ end }}
+</div>
+{{ end }}

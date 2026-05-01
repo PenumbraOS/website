@@ -1,0 +1,23 @@
+{{ $dir := .Get "dir" }}
+{{ $aspect := .Get "aspect" | default "wide" }}
+{{ $title := .Get "title" }}
+{{ $description := .Get "description" }}
+
+{{ $pattern := printf "%s/*" $dir }}
+{{ $images := .Page.Resources.Match $pattern }}
+
+{{/* Filter out any page resources (_index.md etc) */}}
+{{ $filtered := slice }}
+{{ range $images }}
+  {{ if ne .ResourceType "page" }}
+    {{ $filtered = $filtered | append . }}
+  {{ end }}
+{{ end }}
+
+{{ with $filtered }}
+<div class="gallery-section">
+  {{ with $title }}<h3 class="gallery-section-title">{{ . }}</h3>{{ end }}
+  {{ with $description }}<p class="gallery-section-desc">{{ . }}</p>{{ end }}
+  {{ partial "gallery-grid.html" (dict "images" $filtered "dir" $dir "aspect" $aspect) }}
+</div>
+{{ end }}

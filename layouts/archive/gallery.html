@@ -62,31 +62,7 @@
     <section class="gallery-section">
       <h2 class="gallery-section-title">{{ $title }}</h2>
       {{ with $description }}<p class="gallery-section-desc">{{ . }}</p>{{ end }}
-      <div class="gallery-grid {{ $gridClass }}">
-        {{ range . }}
-          {{/* Strip directory prefix and file extension for caption */}}
-          {{ $caption := .Name | replaceRE (printf `^%s/` $dir) "" | replaceRE `\.\w+$` "" }}
-
-          {{ if eq .MediaType.SubType "svg" }}
-            {{/* SVGs: serve directly, no resize */}}
-            <a href="{{ .Permalink }}" target="_blank" rel="noopener" class="gallery-card">
-              <div class="gallery-card-img">
-                <img src="{{ .RelPermalink }}" alt="{{ $caption }}" loading="lazy">
-              </div>
-              <span class="gallery-caption">{{ $caption }}</span>
-            </a>
-          {{ else }}
-            {{/* Raster images: generate thumbnail */}}
-            {{ $thumb := .Resize "400x" }}
-            <a href="{{ .Permalink }}" target="_blank" rel="noopener" class="gallery-card">
-              <div class="gallery-card-img">
-                <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="{{ $caption }}" loading="lazy">
-              </div>
-              <span class="gallery-caption">{{ $caption }}</span>
-            </a>
-          {{ end }}
-        {{ end }}
-      </div>
+      {{ partial "gallery-grid.html" (dict "images" $filtered "dir" $dir "aspect" $aspect) }}
     </section>
     {{ end }}
   {{ end }}
