@@ -57,7 +57,6 @@ fi
 
 INSTALL_TARGET="$SCRIPT_DIR/static/install"
 CENTER_TARGET="$SCRIPT_DIR/static/center"
-INSTALLER_TARGET="$SCRIPT_DIR/static/installer"
 DIST_HUGO_DIR="$CENTER_REPO/dist-hugo"
 
 printf '\n==> Building center Hugo artifacts from %s\n' "$CENTER_REPO"
@@ -66,17 +65,16 @@ printf '\n==> Building center Hugo artifacts from %s\n' "$CENTER_REPO"
   npm run build:hugo-static
 )
 
-if [[ ! -d "$DIST_HUGO_DIR/install" || ! -d "$DIST_HUGO_DIR/center" || ! -d "$DIST_HUGO_DIR/installer" ]]; then
-  echo "Expected dist-hugo/install, dist-hugo/center, and dist-hugo/installer after build." >&2
+if [[ ! -d "$DIST_HUGO_DIR/install" || ! -d "$DIST_HUGO_DIR/center" ]]; then
+  echo "Expected dist-hugo/install and dist-hugo/center after build." >&2
   exit 1
 fi
 
 printf '\n==> Staging generated app artifacts into website/static\n'
-rm -rf "$INSTALL_TARGET" "$CENTER_TARGET" "$INSTALLER_TARGET"
-mkdir -p "$INSTALL_TARGET" "$CENTER_TARGET" "$INSTALLER_TARGET"
+rm -rf "$INSTALL_TARGET" "$CENTER_TARGET"
+mkdir -p "$INSTALL_TARGET" "$CENTER_TARGET"
 cp -R "$DIST_HUGO_DIR/install/." "$INSTALL_TARGET/"
 cp -R "$DIST_HUGO_DIR/center/." "$CENTER_TARGET/"
-cp -R "$DIST_HUGO_DIR/installer/." "$INSTALLER_TARGET/"
 
 if [[ "$MODE" == "build" ]]; then
   printf '\n==> Building website and Pagefind index\n'
@@ -87,7 +85,6 @@ if [[ "$MODE" == "build" ]]; then
   printf '\nBuild complete. Validate these outputs locally:\n'
   printf '  %s/public/install/\n' "$SCRIPT_DIR"
   printf '  %s/public/center/\n' "$SCRIPT_DIR"
-  printf '  %s/public/installer/\n' "$SCRIPT_DIR"
 else
   printf '\n==> Starting Hugo server\n'
   (
