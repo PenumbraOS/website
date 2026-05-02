@@ -50,11 +50,10 @@ jobs:
 
       - name: Stage generated app artifacts into Hugo static
         run: |
-          rm -rf static/install static/center static/installer
-          mkdir -p static/install static/center static/installer
+          rm -rf static/install static/center
+          mkdir -p static/install static/center
           cp -R center-app/dist-hugo/install/. static/install/
           cp -R center-app/dist-hugo/center/. static/center/
-          cp -R center-app/dist-hugo/installer/. static/installer/
 
       - name: Build site
         run: hugo --minify
