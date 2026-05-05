@@ -5,18 +5,8 @@
       <p class="footer-note">{{ . }}</p>
       {{ end }}
     </div>
-    <nav class="footer-links" aria-label="Site">
-      {{ range .Site.Menus.main }}
-        {{ if ne .Identifier "center" }}
-          <a href="{{ .URL }}" class="footer-link">{{ .Name }}</a>
-        {{ end }}
-      {{ end }}
+    <div class="footer-links">
       <a href="https://github.com/PenumbraOS/" class="footer-link" target="_blank" rel="noopener">{{ partial "icons/github.html" }}GitHub</a>
-      {{ range .Site.Menus.main }}
-        {{ if eq .Identifier "center" }}
-          <a href="{{ .URL }}" class="footer-link">{{ .Name }}</a>
-        {{ end }}
-      {{ end }}
-    </nav>
+    </div>
   </div>
 </footer>
