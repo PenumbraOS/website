@@ -27,7 +27,7 @@ title = 'PenumbraOS'
     weight = 10
   [[menu.main]]
     identifier = 'getting-started'
-    name = 'Start'
+    name = 'Get Started'
     url = '/getting-started/'
     pageRef = '/getting-started'
     weight = 20

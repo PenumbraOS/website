@@ -99,103 +99,27 @@
         }
       }
 
-      var whyScene = document.querySelector('[data-why-scroll-scene]');
-      if (whyScene) {
-        var whyCards = Array.prototype.slice.call(whyScene.querySelectorAll('.why-tl-card'));
-        var mqWhy = window.matchMedia('(max-width: 960px)');
-        var mqWhyReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-        function whyScrollDisabled() {
-          return mqWhy.matches || mqWhyReduce.matches;
-        }
-
-        function layoutWhyScene() {
-          if (whyScrollDisabled()) {
-            whyScene.style.minHeight = '';
-            whyCards.forEach(function(c) {
-              c.style.opacity = '';
-              c.style.transform = '';
-              c.style.zIndex = '';
-            });
+      var whyTimeline = document.querySelector('.landing-section--why-scroll .why-timeline');
+      if (whyTimeline) {
+        var updateWhyTimelineLine = function() {
+          if (reducedMotion) {
+            whyTimeline.style.setProperty('--why-timeline-progress', '1');
             return;
           }
-          var vh = window.innerHeight || 800;
-          /* First card is static; remaining cards share scroll length (one fewer “fly-in”). */
-          var scrollUnits = Math.max(1, whyCards.length - 1);
-          whyScene.style.minHeight = Math.round((scrollUnits + 0.38) * vh) + 'px';
-        }
-
-        function easeOutCubic(t) {
-          return 1 - Math.pow(1 - t, 3);
-        }
-
-        function tickWhyScroll() {
-          if (whyScrollDisabled()) return;
-          var rect = whyScene.getBoundingClientRect();
-          var scrollable = whyScene.offsetHeight - window.innerHeight;
-          var p = scrollable <= 0 ? 1 : -rect.top / scrollable;
+          var rect = whyTimeline.getBoundingClientRect();
+          var viewport = window.innerHeight || document.documentElement.clientHeight;
+          var h = rect.height;
+          if (h <= 0) return;
+          var denom = viewport + h;
+          var p = (viewport - rect.top) / denom;
           p = Math.max(0, Math.min(1, p));
-          var n = whyCards.length;
-          var animCount = Math.max(1, n - 1);
-          var segment = 1 / (animCount + 0.18);
-          whyCards.forEach(function(card, i) {
-            /* Vertical offset per card in the settled stack (bigger = more strip visible) */
-            var stackY = i * 54;
-            var rot = (i % 2 === 0 ? -1 : 1) * (1.35 + i * 0.18);
-            if (i === 0) {
-              card.style.opacity = '1';
-              card.style.transform =
-                'translateY(' +
-                stackY.toFixed(1) +
-                'px) rotate(' +
-                rot.toFixed(2) +
-                'deg) scale(1)';
-              card.style.zIndex = String(40 + i);
-              return;
-            }
-            var j = i - 1;
-            var start = j * segment;
-            var dur = segment * 0.9;
-            var t = dur <= 0 ? 1 : (p - start) / dur;
-            t = Math.max(0, Math.min(1, t));
-            var e = easeOutCubic(t);
-            var fromY = stackY + 285;
-            var y = fromY + (stackY - fromY) * e;
-            var op = t < 0.03 ? 0 : Math.min(1, (t - 0.03) / 0.2);
-            card.style.opacity = String(op);
-            card.style.transform =
-              'translateY(' +
-              y.toFixed(1) +
-              'px) rotate(' +
-              (e * rot).toFixed(2) +
-              'deg) scale(' +
-              (0.93 + e * 0.07).toFixed(3) +
-              ')';
-            card.style.zIndex = String(40 + i);
-          });
-        }
-
-        layoutWhyScene();
-        tickWhyScroll();
-        window.addEventListener('scroll', tickWhyScroll, { passive: true });
-        window.addEventListener('resize', function() {
-          layoutWhyScene();
-          tickWhyScroll();
-        });
-
-        if (mqWhy.addEventListener) {
-          mqWhy.addEventListener('change', function() {
-            layoutWhyScene();
-            tickWhyScroll();
-          });
-        }
-        if (mqWhyReduce.addEventListener) {
-          mqWhyReduce.addEventListener('change', function() {
-            layoutWhyScene();
-            tickWhyScroll();
-          });
-        }
+          whyTimeline.style.setProperty('--why-timeline-progress', p.toFixed(4));
+        };
+        updateWhyTimelineLine();
+        window.addEventListener('scroll', updateWhyTimelineLine, { passive: true });
+        window.addEventListener('resize', updateWhyTimelineLine);
       }
+
     });
   </script>
 </body>
