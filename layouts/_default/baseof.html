@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if not .IsHome }}{{ .Title }} | {{ end }}{{ .Site.Title }}</title>
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  <link rel="icon" href="/img/logo.png" type="image/png">
+  <link rel="icon" href="/img/penumbra-logo-square.png" type="image/png">
   {{ $css := resources.Get "css/main.css" }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
   <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
   <script src="/pagefind/pagefind-ui.js"></script>
   {{ block "head" . }}{{ end }}
 </head>
-<body>
+<body{{ if .IsHome }} class="page-home"{{ end }}>
   {{ partial "header.html" . }}
 
   <main>
@@ -32,6 +32,30 @@
           resetStyles: false
         });
       }
+
+      var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var whyTimeline = document.querySelector('.landing-section--why-scroll .why-timeline');
+      if (whyTimeline) {
+        var updateWhyTimelineLine = function() {
+          if (reducedMotion) {
+            whyTimeline.style.setProperty('--why-timeline-progress', '1');
+            return;
+          }
+          var rect = whyTimeline.getBoundingClientRect();
+          var viewport = window.innerHeight || document.documentElement.clientHeight;
+          var h = rect.height;
+          if (h <= 0) return;
+          var denom = viewport + h;
+          var p = (viewport - rect.top) / denom;
+          p = Math.max(0, Math.min(1, p));
+          whyTimeline.style.setProperty('--why-timeline-progress', p.toFixed(4));
+        };
+        updateWhyTimelineLine();
+        window.addEventListener('scroll', updateWhyTimelineLine, { passive: true });
+        window.addEventListener('resize', updateWhyTimelineLine);
+      }
+
     });
   </script>
 </body>

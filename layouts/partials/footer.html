@@ -5,12 +5,9 @@
       <p class="footer-note">{{ . }}</p>
       {{ end }}
     </div>
-    {{ with .Site.Params.footer.links }}
     <div class="footer-links">
-      {{ range . }}
-      <a href="{{ .url }}" class="footer-link" target="_blank" rel="noopener">{{ if eq .name "GitHub" }}{{ partial "icons/github.html" }}{{ end }}{{ .name }}</a>
-      {{ end }}
+      <a href="/timeline/" class="footer-link">The Journey</a>
+      <a href="https://github.com/PenumbraOS/" class="footer-link" target="_blank" rel="noopener">{{ partial "icons/github.html" }}GitHub</a>
     </div>
-    {{ end }}
   </div>
 </footer>

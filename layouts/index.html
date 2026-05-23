@@ -14,9 +14,12 @@
       >
     </div>
   </div>
+  <div class="hero-preview-wrap">
+    {{ partial "hero-center-preview.html" . }}
+  </div>
 </section>
 
 <section class="home-content">
-  <div class="container">{{ .Content }}</div>
+  <div class="container home-content--centered">{{ .Content }}</div>
 </section>
 {{ end }}
